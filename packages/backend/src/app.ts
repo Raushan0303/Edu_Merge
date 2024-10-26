@@ -1,15 +1,19 @@
-// src/app.ts
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { connect } from './config/db';
+import userRoutes from './routes/userRoutes';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3125;
 
-// Simple route
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, World!');
-});
 
-// Start the server
-app.listen(port, () => {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/api/v1', userRoutes);
+
+
+app.listen(port, async() => {
   console.log(`Server is running on http://localhost:${port}`);
+  await connect();
 });
