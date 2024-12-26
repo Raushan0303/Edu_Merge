@@ -6,14 +6,13 @@ import jwt from "jsonwebtoken";
 import { any, z } from "zod";
 import { JWT_SECRET } from "../config/config";
 import dotenv from "dotenv";
-import Workspace from "./workspace";
+import Workspace from "../models/workspace";
 import { sendOtp } from "../utils/send-otp";
 import passport from "passport";
 import { generateSubdomain } from "../utils/subdomain.utils";
 
 dotenv.config();
 
-// Fix: Remove the return statements before res.json() calls
 export const SignUp: RequestHandler = async (req, res) => {
   try {
     const requiredBody = z.object({
@@ -179,7 +178,6 @@ export const googleAuth: RequestHandler = passport.authenticate('google', {
   scope: ['profile', 'email']
 });
 
-// For googleAuthCallback, we need to handle the custom callback
 export const googleAuthCallback: RequestHandler = (
   req: Request,
   res: Response,
